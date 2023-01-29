@@ -1,17 +1,15 @@
 package com.haebeach.foryouth.test.controller;
 
 import com.haebeach.foryouth.test.dto.BaseResponse;
+import com.haebeach.foryouth.test.dto.BodyTest;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/test")
-@AllArgsConstructor
+//@AllArgsConstructor
 @RequiredArgsConstructor
 public class TestController {
 
@@ -20,6 +18,14 @@ public class TestController {
     public BaseResponse requestTest(@PathVariable("testId") String testId) {
         System.out.println("testId : " + testId);
         return new BaseResponse("success", testId);
+    }
+
+    @PostMapping("/postTest/{testId}")
+    @ResponseBody
+    public BaseResponse requestPostTest(@PathVariable("testId") String testId, @RequestBody BodyTest bodyTest) {
+        System.out.println(bodyTest.toString());
+        System.out.println(bodyTest.getId());
+        return new BaseResponse("success", bodyTest.getId());
     }
 
 }
