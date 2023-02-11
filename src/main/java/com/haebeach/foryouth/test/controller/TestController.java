@@ -1,8 +1,7 @@
 package com.haebeach.foryouth.test.controller;
 
-import com.haebeach.foryouth.test.dto.BaseResponse;
+import com.haebeach.foryouth.common.dto.BaseResponse;
 import com.haebeach.foryouth.test.dto.BodyTest;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

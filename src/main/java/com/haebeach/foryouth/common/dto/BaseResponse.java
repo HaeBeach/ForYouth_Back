@@ -1,7 +1,6 @@
-package com.haebeach.foryouth.test.dto;
+package com.haebeach.foryouth.common.dto;
 
 import lombok.Data;
-import lombok.ToString;
 
 @Data
 public class BaseResponse {
