@@ -8,13 +8,13 @@ import java.util.List;
 
 @ToString
 @Data
-public class LhNotice {
+public class LhNoticeDto {
     @SerializedName("dsSch")
-    private List<LhNoticeReq> dsSch;
+    private List<LhNoticeReqDto> dsSch;
     @SerializedName("dsListNm")
-    private List<LhNoticeResDesc> dsListNm;
+    private List<LhNoticeResDescDto> dsListNm;
     @SerializedName("resHeader")
-    private List<LhNoticeResHeader> resHeader;
+    private List<LhNoticeResHeaderDto> resHeader;
     @SerializedName("dsList")
-    private List<LhNoticeRes> dsList;
+    private List<LhNoticeResDto> dsList;
 }

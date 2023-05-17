@@ -6,7 +6,7 @@ import lombok.ToString;
 
 @ToString
 @Data
-public class LhNoticeResDesc {
+public class LhNoticeResDescDto {
     @SerializedName("LINK_URL")
     private String linkUrl;
     @SerializedName("PAGE")

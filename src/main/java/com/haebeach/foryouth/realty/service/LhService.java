@@ -3,8 +3,9 @@ package com.haebeach.foryouth.realty.service;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.haebeach.foryouth.common.dto.BaseResponse;
-import com.haebeach.foryouth.realty.dto.LhNotice;
+import com.haebeach.foryouth.realty.dto.LhNoticeDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LhService {
@@ -26,16 +28,15 @@ public class LhService {
     private String serviceKey;
 
     public BaseResponse requestLhNotice(String pageSize, String pageNumber) throws IOException {
-        System.out.println(serviceKey);
+        log.info("service key : " + serviceKey);
         Date today = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd");
-        System.out.println(today);
+        log.info("today : " + today);
 
         String startDt = "2020-01-01";
         String endDt = simpleDateFormat.format(today);
 
-        System.out.println(startDt);
-        System.out.println(endDt);
+        log.info("Date : " + startDt + " - " + endDt);
 
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B552555/lhNoticeInfo1/getNoticeInfo1"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + serviceKey); /*Service Key*/
@@ -44,12 +45,12 @@ public class LhService {
         urlBuilder.append("&" + URLEncoder.encode("SCH_ED_DT","UTF-8") + "=" + URLEncoder.encode(endDt, "UTF-8")); /*기간검색-종료일*/
         urlBuilder.append("&" + URLEncoder.encode("PAGE","UTF-8") + "=" + URLEncoder.encode(pageNumber, "UTF-8")); /*페이지번호*/
 
-        System.out.println(urlBuilder.toString());
+        log.info("Requested url : " + urlBuilder.toString());
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Content-type", "application/json");
-        System.out.println("Response code: " + conn.getResponseCode());
+        log.info("Response code: " + conn.getResponseCode());
         BufferedReader rd;
         if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -64,12 +65,12 @@ public class LhService {
         rd.close();
         conn.disconnect();
 
-        System.out.println(sb.toString());
+        log.info(sb.toString());
 
         Gson gson = new Gson();
-        List<LhNotice> lhNotice = gson.fromJson(sb.toString(), new TypeToken<List<LhNotice>>(){}.getType());
+        List<LhNoticeDto> lhNoticeDto = gson.fromJson(sb.toString(), new TypeToken<List<LhNoticeDto>>(){}.getType());
 
-        return new BaseResponse("success", lhNotice);
+        return new BaseResponse("success", lhNoticeDto);
     }
 
 }

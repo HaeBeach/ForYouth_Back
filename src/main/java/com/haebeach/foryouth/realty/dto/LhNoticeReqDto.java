@@ -6,7 +6,7 @@ import lombok.ToString;
 
 @ToString
 @Data
-public class LhNoticeReq {
+public class LhNoticeReqDto {
     @SerializedName("PAGE")
     private String page;
     @SerializedName("SCH_ST_DT")
