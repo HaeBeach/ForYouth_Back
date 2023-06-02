@@ -1,6 +1,5 @@
 package com.haebeach.foryouth.realty.entity;
 
-import com.google.gson.annotations.SerializedName;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -14,18 +13,16 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 public class LhNoticeRes {
+
     @Id
     @Column(name = "seq")
-    private int seq;
+    private int seq;            // 순번
 
     @Column(name = "link_url", length = 500)
     private String linkUrl;         // 공지사항상세URL
 
     @Column(name = "page", length = 10)
     private String page;            // 페이지번호
-
-    @Column(name = "rnum", length = 10)
-    private String rnum;            // 순번
 
     @Column(name = "bbs_wou_dttm", length = 10)
     private String bbsWouDttm;      // 등록일
@@ -52,11 +49,10 @@ public class LhNoticeRes {
     private String depNm;           // 담당부서
 
     @Builder
-    public LhNoticeRes(int seq, String linkUrl, String page, String rnum, String bbsWouDttm, String allCnt, String bbsSn, String bbsTl, String inqCnt, String aisTpCdNm, String ccrCnntSysDsCd, String depNm) {
-        this.seq = seq;
+    public LhNoticeRes(int seq, String linkUrl, String page, String bbsWouDttm, String allCnt, String bbsSn, String bbsTl, String inqCnt, String aisTpCdNm, String ccrCnntSysDsCd, String depNm) {
         this.linkUrl = linkUrl;
         this.page = page;
-        this.rnum = rnum;
+        this.seq = seq;
         this.bbsWouDttm = bbsWouDttm;
         this.allCnt = allCnt;
         this.bbsSn = bbsSn;

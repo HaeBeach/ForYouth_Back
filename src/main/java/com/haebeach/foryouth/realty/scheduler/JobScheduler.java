@@ -53,27 +53,27 @@ public class JobScheduler {
         }
     }
 
-    @Scheduled(cron = "0 * * * * *")
-    public void runSH() {
-        log.info("========== Start SH scheduler ==========");
-
-        Map<String, JobParameter<?>> confMap = new HashMap<>();
-        confMap.put("time", new JobParameter<>(System.currentTimeMillis(), Long.class));
-        JobParameters jobParameters = new JobParameters(confMap);
-
-        try {
-            jobLauncher.run(lhNoticeBatchJobConfig.LhNoticeBatchJob(jobRepository, lhNoticeBatchJobConfig.LhNoticeBatchStep(jobRepository, platformTransactionManager)), jobParameters);
-        } catch (JobInstanceAlreadyCompleteException e) {
-            throw new RuntimeException(e);
-        } catch (JobExecutionAlreadyRunningException e) {
-            throw new RuntimeException(e);
-        } catch (JobParametersInvalidException e) {
-            throw new RuntimeException(e);
-        } catch (JobRestartException e) {
-            throw new RuntimeException(e);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    @Scheduled(cron = "0 * * * * *")
+//    public void runSH() {
+//        log.info("========== Start SH scheduler ==========");
+//
+//        Map<String, JobParameter<?>> confMap = new HashMap<>();
+//        confMap.put("time", new JobParameter<>(System.currentTimeMillis(), Long.class));
+//        JobParameters jobParameters = new JobParameters(confMap);
+//
+//        try {
+//            jobLauncher.run(lhNoticeBatchJobConfig.LhNoticeBatchJob(jobRepository, lhNoticeBatchJobConfig.LhNoticeBatchStep(jobRepository, platformTransactionManager)), jobParameters);
+//        } catch (JobInstanceAlreadyCompleteException e) {
+//            throw new RuntimeException(e);
+//        } catch (JobExecutionAlreadyRunningException e) {
+//            throw new RuntimeException(e);
+//        } catch (JobParametersInvalidException e) {
+//            throw new RuntimeException(e);
+//        } catch (JobRestartException e) {
+//            throw new RuntimeException(e);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
 }

@@ -29,7 +29,8 @@ public class LhService {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd");
         log.info("today : " + today);
 
-        return new BaseResponse("success", lhNoticeDto);
+//        return new BaseResponse("success", lhNoticeDto);
+        return new BaseResponse("success", null);
     }
 
 }

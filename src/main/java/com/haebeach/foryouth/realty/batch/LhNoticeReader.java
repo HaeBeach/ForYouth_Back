@@ -16,7 +16,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,40 +26,39 @@ public class LhNoticeReader implements ItemReader {
     @Value("${realty.lh.serviceKey}")
     private String serviceKey;
 
-    private int page = 0;
     private String startDt = "2020-01-01";
     private String endDt;
 
     private List<LhNoticeDto> lhNoticeDtoAll;
+    private int page = 1;
     private int totalSize;
     private int chunkSize = 1000;
-    private int index = this.chunkSize;
+    private int index = 0;
+
+    private boolean initFlag = false;
 
     @Override
     public LhNoticeResDto read() throws Exception {
         LhNoticeResDto lhNoticeResDto = new LhNoticeResDto();
 
-        if (!checkInit()) {
-            this.page++;
-            this.index = 0;
+        if (this.initFlag == false) {
             init();
+            this.page++;
+            this.index = this.totalSize;
+            this.initFlag = true;
         }
-        if (this.index < this.totalSize) {
-            lhNoticeResDto = lhNoticeDtoAll.get(1).getDsList().get(this.index);
-            lhNoticeResDto.setSeq(this.index + 1);
-            this.index++;
+        if (this.index > 0) {
+            lhNoticeResDto = lhNoticeDtoAll.get(1).getDsList().get(this.index - 1);
+            this.index--;
         }
         else {
-            log.info("total size : " + this.totalSize);
-            log.info("empty");
+            log.info("=====empty=====");
             return null;
         }
 
+        if (this.totalSize == this.chunkSize && this.index == 0)
+            this.initFlag = false;
         return lhNoticeResDto;
-    }
-
-    private boolean checkInit() {
-        return this.index < this.chunkSize;
     }
 
     private void init() throws IOException {
@@ -103,6 +101,7 @@ public class LhNoticeReader implements ItemReader {
         Gson gson = new Gson();
         this.lhNoticeDtoAll = gson.fromJson(sb.toString(), new TypeToken<List<LhNoticeDto>>(){}.getType());
         this.totalSize = lhNoticeDtoAll.get(1).getDsList().size();
+        log.info("page size : " + this.totalSize);
     }
 
 }
