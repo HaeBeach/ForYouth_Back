@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.haebeach.foryouth.common.dto.BaseResponse;
 import com.haebeach.foryouth.realty.dto.LhNoticeDto;
+import com.haebeach.foryouth.realty.entity.LhNoticeRes;
+import com.haebeach.foryouth.realty.repository.LhNoticeResRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,13 +26,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LhService {
 
+    private final LhNoticeResRepository lhNoticeResRepository;
+
     public BaseResponse requestLhNotice(String pageSize, String pageNumber) throws IOException {
         Date today = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd");
         log.info("today : " + today);
 
-//        return new BaseResponse("success", lhNoticeDto);
-        return new BaseResponse("success", null);
+        int intPageSize = Integer.parseInt(pageSize);
+        int intPageNumber = Integer.parseInt(pageNumber);
+        int startSeq = ((intPageNumber - 1) * intPageSize) + 1;
+        int endSeq = ((intPageNumber - 1) * intPageSize) + intPageSize;
+
+        log.info("start : " + startSeq + ", end : " + endSeq);
+
+        List<LhNoticeRes> listLhNoticeRes = lhNoticeResRepository.findAllByRnumBetween(startSeq, endSeq);
+        return new BaseResponse("success", listLhNoticeRes);
     }
 
 }

@@ -24,6 +24,9 @@ public class LhNoticeRes {
     @Column(name = "page", length = 10)
     private String page;            // 페이지번호
 
+    @Column(name = "rnum", length = 10)
+    private int rnum;
+
     @Column(name = "bbs_wou_dttm", length = 10)
     private String bbsWouDttm;      // 등록일
 
@@ -49,9 +52,10 @@ public class LhNoticeRes {
     private String depNm;           // 담당부서
 
     @Builder
-    public LhNoticeRes(int seq, String linkUrl, String page, String bbsWouDttm, String allCnt, String bbsSn, String bbsTl, String inqCnt, String aisTpCdNm, String ccrCnntSysDsCd, String depNm) {
+    public LhNoticeRes(int seq, String linkUrl, String page, int rnum, String bbsWouDttm, String allCnt, String bbsSn, String bbsTl, String inqCnt, String aisTpCdNm, String ccrCnntSysDsCd, String depNm) {
         this.linkUrl = linkUrl;
         this.page = page;
+        this.rnum = rnum;
         this.seq = seq;
         this.bbsWouDttm = bbsWouDttm;
         this.allCnt = allCnt;
