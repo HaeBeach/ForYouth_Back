@@ -42,9 +42,10 @@ public class LhNoticeBatchJobConfig {
     @Bean
     public ItemProcessor<LhNoticeResDto, LhNoticeRes> processor() {
         return LhNoticeResDto -> LhNoticeRes.builder()
-                .seq(Integer.parseInt(LhNoticeResDto.getRnum()))
+                .seq(LhNoticeResDto.getSeq())
                 .linkUrl(LhNoticeResDto.getLinkUrl())
                 .page(LhNoticeResDto.getPage())
+                .rnum(Integer.parseInt(LhNoticeResDto.getRnum()))
                 .bbsWouDttm(LhNoticeResDto.getBbsWouDttm())
                 .allCnt(LhNoticeResDto.getAllCnt())
                 .bbsSn(LhNoticeResDto.getBbsSn())

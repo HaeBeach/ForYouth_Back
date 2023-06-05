@@ -16,6 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class LhNoticeReader implements ItemReader {
     private int totalSize;
     private int chunkSize = 1000;
     private int index = 0;
+    private int seq;
 
     private boolean initFlag = false;
 
@@ -43,20 +45,24 @@ public class LhNoticeReader implements ItemReader {
 
         if (this.initFlag == false) {
             init();
+            if (this.page == 1)
+                this.seq = Integer.parseInt(lhNoticeDtoAll.get(1).getDsList().get(0).getAllCnt());
             this.page++;
-            this.index = this.totalSize;
+            this.index = 0;
             this.initFlag = true;
         }
-        if (this.index > 0) {
-            lhNoticeResDto = lhNoticeDtoAll.get(1).getDsList().get(this.index - 1);
-            this.index--;
+        if (this.index < this.totalSize) {
+            lhNoticeResDto = lhNoticeDtoAll.get(1).getDsList().get(this.index);
+            lhNoticeResDto.setSeq(this.seq);
+            this.seq--;
+            this.index++;
         }
         else {
-            log.info("=====empty=====");
+            log.info("empty");
             return null;
         }
 
-        if (this.totalSize == this.chunkSize && this.index == 0)
+        if (this.totalSize == this.chunkSize && this.index == this.totalSize)
             this.initFlag = false;
         return lhNoticeResDto;
     }
@@ -96,7 +102,7 @@ public class LhNoticeReader implements ItemReader {
         }
         rd.close();
         conn.disconnect();
-        log.info(sb.toString());
+//        log.info(sb.toString());
 
         Gson gson = new Gson();
         this.lhNoticeDtoAll = gson.fromJson(sb.toString(), new TypeToken<List<LhNoticeDto>>(){}.getType());
