@@ -1,6 +1,7 @@
 package com.haebeach.foryouth.realty.scheduler;
 
 import com.haebeach.foryouth.realty.config.LhNoticeBatchJobConfig;
+import com.haebeach.foryouth.realty.config.ShNoticeBatchJobConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.JobParameter;
@@ -15,7 +16,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +29,7 @@ public class JobScheduler {
     private final PlatformTransactionManager platformTransactionManager;
 
     private final LhNoticeBatchJobConfig lhNoticeBatchJobConfig;
+    private final ShNoticeBatchJobConfig shNoticeBatchJobConfig;
 
     @Scheduled(cron = "0 * * * * *")
     public void runLHJob() {
@@ -39,7 +40,7 @@ public class JobScheduler {
         JobParameters jobParameters = new JobParameters(confMap);
 
         try {
-            jobLauncher.run(lhNoticeBatchJobConfig.LhNoticeBatchJob(jobRepository, lhNoticeBatchJobConfig.LhNoticeBatchStep(jobRepository, platformTransactionManager)), jobParameters);
+            jobLauncher.run(lhNoticeBatchJobConfig.lhNoticeBatchJob(jobRepository, lhNoticeBatchJobConfig.lhNoticeBatchStep(jobRepository, platformTransactionManager)), jobParameters);
         } catch (JobInstanceAlreadyCompleteException e) {
             throw new RuntimeException(e);
         } catch (JobExecutionAlreadyRunningException e) {
@@ -53,27 +54,27 @@ public class JobScheduler {
         }
     }
 
-//    @Scheduled(cron = "0 * * * * *")
-//    public void runSH() {
-//        log.info("========== Start SH scheduler ==========");
-//
-//        Map<String, JobParameter<?>> confMap = new HashMap<>();
-//        confMap.put("time", new JobParameter<>(System.currentTimeMillis(), Long.class));
-//        JobParameters jobParameters = new JobParameters(confMap);
-//
-//        try {
-//            jobLauncher.run(lhNoticeBatchJobConfig.LhNoticeBatchJob(jobRepository, lhNoticeBatchJobConfig.LhNoticeBatchStep(jobRepository, platformTransactionManager)), jobParameters);
-//        } catch (JobInstanceAlreadyCompleteException e) {
-//            throw new RuntimeException(e);
-//        } catch (JobExecutionAlreadyRunningException e) {
-//            throw new RuntimeException(e);
-//        } catch (JobParametersInvalidException e) {
-//            throw new RuntimeException(e);
-//        } catch (JobRestartException e) {
-//            throw new RuntimeException(e);
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
+    @Scheduled(cron = "0 0/5 * * * *")
+    public void runSHJob() {
+        log.info("========== Start SH scheduler ==========");
+
+        Map<String, JobParameter<?>> confMap = new HashMap<>();
+        confMap.put("time", new JobParameter<>(System.currentTimeMillis(), Long.class));
+        JobParameters jobParameters = new JobParameters(confMap);
+
+        try {
+            jobLauncher.run(shNoticeBatchJobConfig.shNoticeBatchJob(jobRepository, shNoticeBatchJobConfig.shNoticeBatchStep(jobRepository, platformTransactionManager)), jobParameters);
+        } catch (JobInstanceAlreadyCompleteException e) {
+            throw new RuntimeException(e);
+        } catch (JobExecutionAlreadyRunningException e) {
+            throw new RuntimeException(e);
+        } catch (JobParametersInvalidException e) {
+            throw new RuntimeException(e);
+        } catch (JobRestartException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
