@@ -28,6 +28,9 @@ public class LhNoticeReader implements ItemReader {
     @Value("${realty.lh.serviceKey}")
     private String serviceKey;
 
+    @Value("${realty.lh.noticeApiUrl}")
+    private String lhApiUrl;
+
     private String startDt = "2020-01-01";
     private String endDt;
 
@@ -75,7 +78,7 @@ public class LhNoticeReader implements ItemReader {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd");
         this.endDt = simpleDateFormat.format(today);
 
-        StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B552555/lhNoticeInfo1/getNoticeInfo1"); /*URL*/
+        StringBuilder urlBuilder = new StringBuilder(lhApiUrl); /*URL*/
 
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + this.serviceKey); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("PG_SZ","UTF-8") + "=" + URLEncoder.encode(Integer.toString(this.chunkSize), "UTF-8")); /*한 페이지 결과 수*/
@@ -103,7 +106,6 @@ public class LhNoticeReader implements ItemReader {
         }
         rd.close();
         conn.disconnect();
-//        log.info(sb.toString());
 
         Gson gson = new Gson();
         this.lhNoticeDtoAll = gson.fromJson(sb.toString(), new TypeToken<List<LhNoticeDto>>(){}.getType());

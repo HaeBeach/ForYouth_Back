@@ -23,14 +23,14 @@ public class LhNoticeBatchJobConfig {
     private final LhNoticeWriter lhNoticeWriter;
 
     @Bean
-    public Job LhNoticeBatchJob(JobRepository jobRepository, Step LhNoticeBatchStep) {
+    public Job lhNoticeBatchJob(JobRepository jobRepository, Step lhNoticeBatchStep) {
         return new JobBuilder("LhNoticeBatchJob", jobRepository)
-                .start(LhNoticeBatchStep)
+                .start(lhNoticeBatchStep)
                 .build();
     }
 
     @Bean
-    public Step LhNoticeBatchStep(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager) {
+    public Step lhNoticeBatchStep(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager) {
         return new StepBuilder("LhNoticeBatchStep", jobRepository)
                 .<LhNoticeResDto, LhNoticeRes>chunk(1000, platformTransactionManager)
                 .reader(lhNoticeReader)
