@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.haebeach.foryouth.realty.dto.LhNoticeDto;
 import com.haebeach.foryouth.realty.dto.LhNoticeResDto;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -16,12 +17,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Slf4j
 @Component
+@JobScope
 public class LhNoticeReader implements ItemReader {
 
     @Value("${realty.lh.serviceKey}")
