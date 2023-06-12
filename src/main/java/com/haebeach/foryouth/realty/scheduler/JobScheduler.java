@@ -31,7 +31,7 @@ public class JobScheduler {
     private final LhNoticeBatchJobConfig lhNoticeBatchJobConfig;
     private final ShNoticeBatchJobConfig shNoticeBatchJobConfig;
 
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "0 0/2 * * * *")
     public void runLHJob() {
         log.info("========== Start LH notice batch job ==========");
 
