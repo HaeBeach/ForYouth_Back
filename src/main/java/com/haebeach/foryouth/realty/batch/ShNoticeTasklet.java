@@ -43,13 +43,13 @@ public class ShNoticeTasklet implements Tasklet, StepExecutionListener {
         log.info("execute step");
         final CompletableFuture<String> crawlerResult = crawlerService.requestSHCrawler();
         crawlerResult.thenAccept(
-                result -> {
-                    if ("false".equals(result)) {
-                        log.warn("request fail");
-                        return ;
-                    }
-                    log.info("request success");
+            result -> {
+                if ("false".equals(result)) {
+                    log.warn("request fail");
+                    return ;
                 }
+                log.info("request success");
+            }
         );
         return RepeatStatus.FINISHED;
     }
