@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -38,14 +39,27 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+//        return httpSecurity.csrf().disable()
+//                .authorizeHttpRequests()
+//                .requestMatchers("/realty/lh/**").permitAll()
+//                .and()
+//                .authorizeHttpRequests()
+//                .requestMatchers("/realty/sh/**").authenticated()
+//                .and()
+//                .formLogin()
+//                .and()
+//                .cors()
+//                .and().build();
         return httpSecurity.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/realty/lh/**").permitAll()
+                .requestMatchers("/").permitAll()
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/realty/sh/**").authenticated()
+                .requestMatchers("/realty/sh/**").hasRole("ADMIN")
                 .and()
                 .formLogin()
+                .and()
+                .cors()
                 .and().build();
     }
 
