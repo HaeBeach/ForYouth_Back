@@ -3,14 +3,11 @@ package com.haebeach.foryouth.auth.service;
 import com.haebeach.foryouth.auth.entity.User;
 import com.haebeach.foryouth.auth.repository.UserRepository;
 import com.haebeach.foryouth.auth.security.UserInfoUserDetails;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
