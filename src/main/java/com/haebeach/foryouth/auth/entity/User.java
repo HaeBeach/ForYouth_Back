@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,5 +37,16 @@ public class User {
 
     @Column(name = "roles", length = 50)
     private String roles;
+
+    @Builder
+    public User(String id, String password, String email, String birthDay, String gender, String address, String roles) {
+        this.id = id;
+        this.password = password;
+        this.email = email;
+        this.birthDay = birthDay;
+        this.gender = gender;
+        this.address = address;
+        this.roles = roles;
+    }
 
 }
