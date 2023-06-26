@@ -7,6 +7,7 @@ import com.haebeach.foryouth.common.dto.BaseResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     private final UserRepository userRepository;
+
+    private final PasswordEncoder passwordEncoder;
 
     private String roles = "ROLE_USER";
 
@@ -28,7 +31,7 @@ public class AuthService {
         try {
             User user = User.builder()
                     .id(signupReqDto.getId())
-                    .password(signupReqDto.getPassword())
+                    .password(passwordEncoder.encode(signupReqDto.getPassword()))
                     .email(signupReqDto.getEmail())
                     .birthDay(signupReqDto.getBirthDay())
                     .gender(signupReqDto.getGender())
