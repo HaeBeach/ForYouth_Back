@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface UserRepository extends ListCrudRepository<User, Long> {
 
-    Optional<User> findById(String id);
+//    Optional<User> findById(String id);
+    User findById(String id);
 
 }
